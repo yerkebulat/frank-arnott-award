@@ -1,0 +1,1 @@
+This is Team "Nomad Outcrops" repo. Here we store model weigts, relevant code and other data that is part of Frank-Arnott Award alongside PDAC forum in 2027, Toronto. Please contact yerkebulan.tazabek@nu.edu.kz for relevant questions. Thanks!

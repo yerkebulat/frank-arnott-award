@@ -8,10 +8,12 @@ Questions: yerkebulan.tazabek@nu.edu.kz
  
 ## Weights in this repository
  
+Note: `intrusive_vit_weights.pt` is listed below but has not been uploaded to this repository yet.
+ 
 | File | Model | What it answers |
 | --- | --- | --- |
-| `semantic_fault_weights.pt` | DeepLabv3+ | Where is the published fault ribbon on this tile? |
-| `intrusive_vit_weights.pt` | ViT-base, patch 16 | Is this tile mapped intrusive rock, or other? |
+| `semantic_fault_weights.pt` | YOLOWorld 26-small | Where is the published fault ribbon on this tile? |
+| `intrusive_vit_weights.pt` | ViT 3.1 (Roboflow), patch 16 | Is this tile mapped intrusive rock, or other? |
  
 The magnetic tiles themselves are not in this repository. They are 256 by 256 pixels from the QUEST reduced-to-pole image, 100 m per pixel, so 25.6 km on a side. The next tile starts 128 pixels over, and neighbours share half their pixels. Because of that overlap, both splits follow northing. A random cut would show the model ground it had already seen.
  
@@ -26,19 +28,19 @@ The class is `fault`. Pixel 0 is background. Pixel 1 is the ribbon.
  
 ## Fault paint
  
-DeepLabv3+. The tile stays 256 pixels. The ribbon the model is asked to paint is the published fault file, 500 m either side of each line.
+YOLOWorld 26-small. The tile stays 256 pixels. The ribbon the model is asked to paint is the published fault file, 500 m either side of each line.
  
-- Train: 391 tiles south of 6,000,000 N.
-- Check: 121 tiles from 6,000,000 N to 6,050,000 N.
-- Test: 401 tiles on the Block A side, including the Mount Milligan tile.
+- Train: 639 tiles south of 6,000,000 N.
+- Valid: 182 tiles from 6,000,000 N to 6,050,000 N.
+- Test: 92 tiles on the Block A side.
+
+That is a 70/20/10 split.
  
-Fault IoU on that test is 4.7%. The same weights, run again and stitched, score 4.5% (261,518 / 5,755,645). A painter that colours about 7% of the pixels at random scores about the same. On most of the belt the ribbon is no sharper than the ground beside it. The published lines stay.
- 
-Chen, Zhu, Papandreou, Schroff, and Adam, 2018, ECCV, pp. 801–818.
+Fault IoU on that test is 20.7%. On most of the belt the ribbon is no sharper than the ground beside it. The published lines stay.
  
 ## Intrusive or other
  
-ViT-base, patch 16. The 256-pixel tile is resized to 224. The label comes from the regional bedrock map. A tile counts as intrusive when at least 20% of its pixels sit in an intrusive polygon.
+ViT 3.1 (Roboflow), patch 16. The 256-pixel tile is resized to 224. The label comes from the regional bedrock map. A tile counts as intrusive when at least 20% of its pixels sit in an intrusive polygon.
  
 - Train: 41 intrusive and 82 other, between 6,000,000 N and 6,164,400 N.
 - Check: 11 intrusive and 16 other, in the same belt.
@@ -54,10 +56,6 @@ The headline average of both classes is higher. The number to quote is the intru
 A later run of the same kind of model, on 1,092 tiles, calls 454 of them intrusive. 53 of those meet Block A. That run is not the 100-tile score.
  
 Dosovitskiy and others, 2021, ICLR. An image is worth 16×16 words.
- 
-## A separate fault test
- 
-YOLO26-small was scored on 90 tiles. Fault IoU on that test is 20.4%. Those are not the DeepLab weights, and that score is not the 401-tile result.
  
 ## Licence
  
